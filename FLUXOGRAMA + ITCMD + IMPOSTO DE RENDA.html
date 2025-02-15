@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fluxograma Interativo: ITCMD e Imposto de Renda</title>
+  <script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.2/standalone/umd/vis-network.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+    h2 {
+      text-align: center;
+      margin: 20px 0;
+      color: #444;
+    }
+    #mynetwork {
+      width: 100%;
+      height: 800px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.7);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 5% auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 900px;
+      border-radius: 6px;
+      color: #000;
+      line-height: 1.6;
+      position: relative;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      position: absolute;
+      right: 20px;
+      top: 10px;
+    }
+    .close:hover, .close:focus {
+      color: #000;
+      text-decoration: none;
+    }
+    .title {
+      text-align: left;
+      font-size: 18px;
+      margin-bottom: 12px;
+      font-weight: bold;
+      color: #333;
+    }
+    .paragraph {
+      text-align: justify;
+      margin-bottom: 14px;
+      color: #444;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <h2>Fluxograma Interativo: ITCMD e Imposto de Renda</h2>
+  <div id="mynetwork"></div>
+  
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="modalText">Detalhes da etapa aparecerão aqui.</div>
+    </div>
+  </div>
+  
+  <script>
+    var nodesData = [{"id": 1, "label": "Identifica\u00e7\u00e3o do Benef\u00edcio", "detail": "\n<div class=\"title\">1. Identifica\u00e7\u00e3o do Benef\u00edcio</div>\n<div class=\"paragraph\">\nNesta primeira etapa, \u00e9 fundamental determinar se o valor a receber decorre de pens\u00e3o por morte, seguro de vida ou plano de previd\u00eancia privada (VGBL ou PGBL). Essa classifica\u00e7\u00e3o afeta diretamente a incid\u00eancia do ITCMD e a forma de tributa\u00e7\u00e3o do Imposto de Renda. \n</div>\n<div class=\"paragraph\">\nExemplo pr\u00e1tico: suponha que Ana, ap\u00f3s o falecimento de seu c\u00f4njuge, recebe um seguro de vida de R$ 1.600.000,00. Antes de definir qualquer estrat\u00e9gia tribut\u00e1ria, \u00e9 preciso verificar se esse montante resulta de um contrato de seguro tradicional ou de um plano de previd\u00eancia privada. Se for um seguro de vida puro, a tend\u00eancia \u00e9 que n\u00e3o incida o ITCMD, pois n\u00e3o se trata de transmiss\u00e3o heredit\u00e1ria, mas sim de indeniza\u00e7\u00e3o. Por outro lado, se o valor for originado de um plano de previd\u00eancia VGBL, deve-se analisar as caracter\u00edsticas do contrato para confirmar se h\u00e1 ou n\u00e3o incid\u00eancia de tributos estaduais e como se dar\u00e1 o c\u00e1lculo do Imposto de Renda.\n</div>\n<div class=\"paragraph\">\nUma identifica\u00e7\u00e3o equivocada pode levar a cobran\u00e7as indevidas de impostos e a estrat\u00e9gias judiciais inadequadas. Portanto, coletar a documenta\u00e7\u00e3o (ap\u00f3lice de seguro, certificado de previd\u00eancia ou comprovante de pens\u00e3o) \u00e9 indispens\u00e1vel para a correta classifica\u00e7\u00e3o. Essa verifica\u00e7\u00e3o inicial fundamenta as etapas subsequentes, tanto para fins de planejamento tribut\u00e1rio quanto para eventual questionamento de reten\u00e7\u00f5es feitas pela institui\u00e7\u00e3o financeira ou pelo fisco estadual.\n</div>\n"}, {"id": 2, "label": "An\u00e1lise do ITCMD", "detail": "\n<div class=\"title\">2. An\u00e1lise do ITCMD</div>\n<div class=\"paragraph\">\nO ITCMD (Imposto sobre Transmiss\u00e3o Causa Mortis e Doa\u00e7\u00e3o) incide sobre a transmiss\u00e3o de bens ou direitos decorrentes de heran\u00e7a ou doa\u00e7\u00e3o. Contudo, muitos estados, incluindo Minas Gerais, admitem que valores de seguro de vida e pens\u00e3o por morte n\u00e3o sejam tributados, pois n\u00e3o constituem parte do esp\u00f3lio, mas sim direito aut\u00f4nomo do benefici\u00e1rio. Ainda assim, \u00e9 necess\u00e1rio avaliar se h\u00e1 caracter\u00edsticas que possam configurar transmiss\u00e3o patrimonial.\n</div>\n<div class=\"paragraph\">\nExemplo pr\u00e1tico: imagine que Carlos recebeu R$ 1.600.000,00 de um plano de previd\u00eancia privada ap\u00f3s o falecimento de seu pai. A seguradora, interpretando o valor como transmiss\u00e3o de um saldo patrimonial, reteve 5% de ITCMD, totalizando R$ 80.000,00. Nesse cen\u00e1rio, cabe verificar se o contrato prev\u00ea que o valor seja pago como seguro (natureza indenizat\u00f3ria) ou se efetivamente configura heran\u00e7a. Em alguns casos, o VGBL \u00e9 tratado como seguro de vida e, portanto, n\u00e3o geraria incid\u00eancia de ITCMD. A discuss\u00e3o jur\u00eddica ocorre porque alguns entes fazend\u00e1rios alegam que, se h\u00e1 saldo financeiro, haveria fato gerador do imposto. \n</div>\n<div class=\"paragraph\">\nA legisla\u00e7\u00e3o estadual, a jurisprud\u00eancia dos tribunais superiores e o pr\u00f3prio texto do contrato s\u00e3o elementos-chave para afastar ou confirmar a incid\u00eancia do tributo. Caso se constate que a reten\u00e7\u00e3o foi indevida, o benefici\u00e1rio pode buscar a restitui\u00e7\u00e3o dos valores, seja por meio de a\u00e7\u00e3o de repeti\u00e7\u00e3o de ind\u00e9bito ou mandado de seguran\u00e7a, dependendo das circunst\u00e2ncias de fato.\n</div>\n"}, {"id": 3, "label": "Verifica\u00e7\u00e3o da Reten\u00e7\u00e3o", "detail": "\n<div class=\"title\">3. Verifica\u00e7\u00e3o da Reten\u00e7\u00e3o</div>\n<div class=\"paragraph\">\nNesta fase, analisa-se se a institui\u00e7\u00e3o financeira ou a seguradora j\u00e1 reteve algum valor a t\u00edtulo de ITCMD ou outro tributo, antes de liberar o benef\u00edcio ao benefici\u00e1rio. Em alguns estados, a legisla\u00e7\u00e3o imp\u00f5e \u00e0s institui\u00e7\u00f5es a responsabilidade de reter o imposto no momento do pagamento, visando a evitar a inadimpl\u00eancia tribut\u00e1ria.\n</div>\n<div class=\"paragraph\">\nExemplo pr\u00e1tico: suponha que Sofia v\u00e1 receber R$ 1.600.000,00 de seguro de vida, mas ao conferir o dep\u00f3sito em sua conta banc\u00e1ria, nota que apenas R$ 1.520.000,00 foram creditados, pois houve reten\u00e7\u00e3o de R$ 80.000,00 (equivalente a 5%). Antes de buscar qualquer medida judicial, Sofia deve solicitar \u00e0 seguradora os documentos que justifiquem esse desconto e verificar se, de fato, havia hip\u00f3tese de incid\u00eancia do ITCMD. Se o valor for relativo a um seguro de vida puro, sem transmiss\u00e3o patrimonial, a reten\u00e7\u00e3o pode ser questionada.\n</div>\n<div class=\"paragraph\">\nEssa verifica\u00e7\u00e3o \u00e9 essencial para fundamentar uma eventual a\u00e7\u00e3o de repeti\u00e7\u00e3o de ind\u00e9bito ou para ingressar com mandado de seguran\u00e7a, caso a reten\u00e7\u00e3o seja considerada indevida. O di\u00e1logo inicial com a institui\u00e7\u00e3o pagadora permite esclarecer d\u00favidas sobre a base de c\u00e1lculo e o procedimento de repasse ao fisco. Tamb\u00e9m \u00e9 recomend\u00e1vel obter comprovantes de recolhimento para saber se o imposto foi efetivamente pago ao Estado ou apenas bloqueado pela seguradora.\n</div>\n"}, {"id": 4, "label": "A\u00e7\u00e3o Repeti\u00e7\u00e3o de Ind\u00e9bito", "detail": "\n<div class=\"title\">4. A\u00e7\u00e3o de Repeti\u00e7\u00e3o de Ind\u00e9bito</div>\n<div class=\"paragraph\">\nQuando o valor de ITCMD \u00e9 recolhido indevidamente, a a\u00e7\u00e3o de repeti\u00e7\u00e3o de ind\u00e9bito surge como instrumento judicial para reaver a quantia paga a maior ou sem base legal. A peti\u00e7\u00e3o inicial deve demonstrar que o benef\u00edcio n\u00e3o se enquadra na hip\u00f3tese de incid\u00eancia do tributo, anexando documentos como ap\u00f3lice de seguro, certid\u00e3o de \u00f3bito e comprovantes de reten\u00e7\u00e3o.\n</div>\n<div class=\"paragraph\">\nExemplo pr\u00e1tico: no caso de Sofia, mencionada anteriormente, se a seguradora recolheu R$ 80.000,00 de ITCMD ao Estado, ela pode propor uma a\u00e7\u00e3o de repeti\u00e7\u00e3o de ind\u00e9bito, alegando que o seguro de vida n\u00e3o integra o acervo heredit\u00e1rio. O juiz, ao analisar os elementos probat\u00f3rios, pode determinar a devolu\u00e7\u00e3o do imposto, corrigido monetariamente. Caso o valor a ser restitu\u00eddo ultrapasse o limite de 60 sal\u00e1rios m\u00ednimos, o pagamento ao benefici\u00e1rio pode ser feito via precat\u00f3rio. Se ficar abaixo desse limite, o ressarcimento ocorre por RPV (Requisi\u00e7\u00e3o de Pequeno Valor), cujo prazo costuma ser mais curto.\n</div>\n<div class=\"paragraph\">\n\u00c9 importante que a a\u00e7\u00e3o seja bem instru\u00edda, com fundamenta\u00e7\u00e3o na legisla\u00e7\u00e3o estadual e nos precedentes dos tribunais superiores que reconhe\u00e7am a natureza indenizat\u00f3ria do seguro de vida. Tamb\u00e9m conv\u00e9m destacar que, se a reten\u00e7\u00e3o foi feita por equ\u00edvoco da institui\u00e7\u00e3o, a a\u00e7\u00e3o pode apontar a responsabilidade do ente p\u00fablico em restituir o tributo. Em paralelo, \u00e9 poss\u00edvel avaliar outras medidas, como o mandado de seguran\u00e7a, dependendo das peculiaridades do caso.\n</div>\n"}, {"id": 5, "label": "Mandado de Seguran\u00e7a", "detail": "\n<div class=\"title\">5. Mandado de Seguran\u00e7a</div>\n<div class=\"paragraph\">\nO mandado de seguran\u00e7a \u00e9 uma a\u00e7\u00e3o constitucional que visa proteger direito l\u00edquido e certo contra ato de autoridade. No contexto do ITCMD, pode ser utilizado para impedir a reten\u00e7\u00e3o ou para liberar valores que estejam bloqueados indevidamente, desde que haja provas inequ\u00edvocas da n\u00e3o incid\u00eancia do imposto. \n</div>\n<div class=\"paragraph\">\nExemplo pr\u00e1tico: se Sofia, ao ser informada pela seguradora de que haveria um desconto de R$ 80.000,00 sobre o total de R$ 1.600.000,00, decide agir preventivamente para garantir a libera\u00e7\u00e3o integral, ela pode impetrar mandado de seguran\u00e7a contra a autoridade fazend\u00e1ria estadual, demonstrando a natureza de seguro de vida puro. Se obtiver uma liminar favor\u00e1vel, a seguradora ser\u00e1 autorizada a efetuar o pagamento total a Sofia, sem reten\u00e7\u00e3o. \n</div>\n<div class=\"paragraph\">\nEssa via processual costuma ser mais c\u00e9lere para suspender atos de cobran\u00e7a, mas exige que a prova seja documental e robusta, demonstrando a liquidez e certeza do direito. Caso o valor j\u00e1 tenha sido efetivamente recolhido aos cofres p\u00fablicos, o mandado de seguran\u00e7a pode perder efic\u00e1cia quanto \u00e0 devolu\u00e7\u00e3o, tornando mais indicada a a\u00e7\u00e3o de repeti\u00e7\u00e3o de ind\u00e9bito. Em alguns casos, contudo, ambos os instrumentos podem ser utilizados, dependendo do momento em que se descobre a reten\u00e7\u00e3o ou se consolida o pagamento indevido.\n</div>\n"}, {"id": 6, "label": "A\u00e7\u00e3o Contra Institui\u00e7\u00e3o", "detail": "\n<div class=\"title\">6. A\u00e7\u00e3o Contra a Institui\u00e7\u00e3o</div>\n<div class=\"paragraph\">\nEm certos casos, pode ser cab\u00edvel propor a\u00e7\u00e3o diretamente contra a institui\u00e7\u00e3o financeira ou a seguradora, principalmente se houver ind\u00edcios de erro ou abuso na reten\u00e7\u00e3o. Embora a legisla\u00e7\u00e3o preveja a responsabilidade de reter o ITCMD em determinadas situa\u00e7\u00f5es, a institui\u00e7\u00e3o deve observar os requisitos legais para evitar descontos indevidos.\n</div>\n<div class=\"paragraph\">\nExemplo pr\u00e1tico: se Sofia comprovar que a seguradora realizou a reten\u00e7\u00e3o de 5% (R$ 80.000,00) sem qualquer base legal, mesmo ciente de que se tratava de seguro de vida puro, \u00e9 poss\u00edvel ajuizar a\u00e7\u00e3o para exigir a devolu\u00e7\u00e3o imediata, alegando falha na presta\u00e7\u00e3o do servi\u00e7o. Al\u00e9m disso, caso haja danos adicionais, como atraso no pagamento que cause preju\u00edzo financeiro, pode-se pleitear indeniza\u00e7\u00e3o espec\u00edfica, dependendo das circunst\u00e2ncias. \n</div>\n<div class=\"paragraph\">\nContudo, se o valor retido j\u00e1 tiver sido repassado ao Estado, a devolu\u00e7\u00e3o depender\u00e1 de discuss\u00e3o com o ente p\u00fablico (por exemplo, via repeti\u00e7\u00e3o de ind\u00e9bito). Nesse caso, a a\u00e7\u00e3o contra a institui\u00e7\u00e3o poderia se limitar \u00e0 responsabilidade por eventuais danos decorrentes do bloqueio indevido. Assim, \u00e9 fundamental analisar se a reten\u00e7\u00e3o ocorreu por determina\u00e7\u00e3o legal ou por decis\u00e3o unilateral da seguradora ou do banco. A escolha de acionar a institui\u00e7\u00e3o ou o Estado (ou ambos) depende da natureza do ato e das provas dispon\u00edveis.\n</div>\n"}, {"id": 7, "label": "An\u00e1lise do IR", "detail": "\n<div class=\"title\">7. An\u00e1lise do IR</div>\n<div class=\"paragraph\">\nA an\u00e1lise do Imposto de Renda (IR) tamb\u00e9m \u00e9 imprescind\u00edvel. Em geral, o seguro de vida n\u00e3o sofre IR sobre o valor principal, pois se trata de indeniza\u00e7\u00e3o. No entanto, se houver juros ou atualiza\u00e7\u00e3o monet\u00e1ria, pode incidir tributa\u00e7\u00e3o sobre essa parcela adicional. J\u00e1 a pens\u00e3o por morte \u00e9 tratada como rendimento peri\u00f3dico, sendo tributada conforme a tabela progressiva. \n</div>\n<div class=\"paragraph\">\nExemplo pr\u00e1tico: no caso de um seguro de vida de R$ 1.600.000,00, a parte principal tende a ser isenta. Por\u00e9m, se a seguradora pagou R$ 50.000,00 a mais, referentes a juros morat\u00f3rios por atraso, esses R$ 50.000,00 podem ser tributados como rendimento. Em planos de previd\u00eancia privada, se o falecido possu\u00eda um PGBL, o Imposto de Renda pode incidir sobre a totalidade do saldo, enquanto no VGBL a tributa\u00e7\u00e3o se restringe aos rendimentos. \n</div>\n<div class=\"paragraph\">\nAssim, \u00e9 necess\u00e1rio verificar qual tipo de contrato vigorava, se havia op\u00e7\u00e3o pela tabela regressiva ou progressiva, e se a institui\u00e7\u00e3o financeira j\u00e1 reteve o IR na fonte. O benefici\u00e1rio deve conferir as informa\u00e7\u00f5es de rendimentos fornecidas pela seguradora para declarar corretamente no ajuste anual e evitar problemas com o fisco. Caso surjam diverg\u00eancias, \u00e9 poss\u00edvel questionar a institui\u00e7\u00e3o ou a Receita Federal para regularizar a situa\u00e7\u00e3o.\n</div>\n"}, {"id": 8, "label": "Exemplo Pr\u00e1tico (1,6 milh\u00e3o)", "detail": "\n<div class=\"title\">8. Exemplo Pr\u00e1tico com R$1.600.000,00</div>\n<div class=\"paragraph\">\nImagine que Lucas, \u00fanico filho de um segurado, recebe R$ 1.600.000,00 de um seguro de vida ap\u00f3s o falecimento do pai. Ao buscar o valor no banco, descobre que apenas R$ 1.520.000,00 foram depositados, pois houve reten\u00e7\u00e3o de R$ 80.000,00 (5%) a t\u00edtulo de ITCMD. Analisando a ap\u00f3lice, Lucas constata que se trata de seguro de vida puro, cujo pagamento n\u00e3o deve compor a heran\u00e7a. \n</div>\n<div class=\"paragraph\">\nNessa situa\u00e7\u00e3o, Lucas pode contestar a reten\u00e7\u00e3o, pois a jurisprud\u00eancia tende a afastar o ITCMD sobre seguro de vida. Ele pode optar por mandado de seguran\u00e7a para libera\u00e7\u00e3o imediata do valor, caso ainda n\u00e3o tenha sido recolhido ao Estado, ou, se j\u00e1 recolhido, ingressar com a\u00e7\u00e3o de repeti\u00e7\u00e3o de ind\u00e9bito para reaver os R$ 80.000,00. Caso o valor a ser restitu\u00eddo supere o limite de 60 sal\u00e1rios m\u00ednimos, poder\u00e1 haver pagamento via precat\u00f3rio. Se for inferior a esse teto, o recebimento ocorre por RPV (Requisi\u00e7\u00e3o de Pequeno Valor). \n</div>\n<div class=\"paragraph\">\nPor outro lado, se o montante fosse oriundo de um PGBL, o IR incidiria sobre a totalidade, e a reten\u00e7\u00e3o poderia ser justificada pela natureza do plano, que funciona como diferimento fiscal. Esse exemplo ilustra como o mesmo valor de R$ 1.600.000,00 pode gerar diferentes consequ\u00eancias tribut\u00e1rias, dependendo do tipo de benef\u00edcio e das regras contratuais.\n</div>\n"}, {"id": 9, "label": "Estrat\u00e9gia Final e Precat\u00f3rio", "detail": "\n<div class=\"title\">9. Estrat\u00e9gia Final e Precat\u00f3rio</div>\n<div class=\"paragraph\">\nA estrat\u00e9gia final envolve a libera\u00e7\u00e3o imediata do valor ao benefici\u00e1rio e a contesta\u00e7\u00e3o judicial dos tributos retidos, quando houver ind\u00edcios de cobran\u00e7a indevida. Em muitos casos, \u00e9 aconselh\u00e1vel aceitar a libera\u00e7\u00e3o parcial (por exemplo, 95% do montante) e discutir os 5% restantes em ju\u00edzo, evitando que o benefici\u00e1rio fique desassistido financeiramente. \n</div>\n<div class=\"paragraph\">\nNo caso de valores altos, como R$ 1.600.000,00, uma reten\u00e7\u00e3o de 5% (R$ 80.000,00) pode ser significativa. Caso a a\u00e7\u00e3o judicial resulte em senten\u00e7a favor\u00e1vel ao contribuinte e o valor a restituir ultrapasse 60 sal\u00e1rios m\u00ednimos, o pagamento ser\u00e1 feito por precat\u00f3rio. Caso contr\u00e1rio, a RPV \u00e9 emitida, com prazo de pagamento reduzido. A escolha entre mandado de seguran\u00e7a, repeti\u00e7\u00e3o de ind\u00e9bito ou a\u00e7\u00e3o contra a institui\u00e7\u00e3o depender\u00e1 do momento em que se descobre a reten\u00e7\u00e3o e do tipo de documenta\u00e7\u00e3o dispon\u00edvel. \n</div>\n<div class=\"paragraph\">\n\u00c9 fundamental analisar o tipo de benef\u00edcio (seguro de vida, pens\u00e3o, previd\u00eancia) e o regime de tributa\u00e7\u00e3o escolhido (progressivo ou regressivo, no caso de previd\u00eancia), al\u00e9m de considerar eventuais juros ou corre\u00e7\u00f5es monet\u00e1rias que possam incidir sobre o valor. Uma boa estrat\u00e9gia tamb\u00e9m prev\u00ea a possibilidade de acordos ou solu\u00e7\u00f5es administrativas, caso a institui\u00e7\u00e3o financeira reconhe\u00e7a o equ\u00edvoco na reten\u00e7\u00e3o. \n</div>\n"}, {"id": 10, "label": "Conclus\u00e3o e Orienta\u00e7\u00f5es", "detail": "\n<div class=\"title\">10. Conclus\u00e3o e Orienta\u00e7\u00f5es</div>\n<div class=\"paragraph\">\nA conclus\u00e3o refor\u00e7a a import\u00e2ncia de identificar adequadamente o tipo de benef\u00edcio (pens\u00e3o por morte, seguro de vida ou plano de previd\u00eancia) e de avaliar se h\u00e1 fato gerador de ITCMD ou incid\u00eancia de Imposto de Renda sobre o montante principal ou eventuais acr\u00e9scimos. O exemplo de R$ 1.600.000,00 mostra como uma reten\u00e7\u00e3o de 5% pode acarretar quantias elevadas a serem discutidas judicialmente. \n</div>\n<div class=\"paragraph\">\nPara assegurar o recebimento correto, recomenda-se reunir todos os documentos relativos ao benef\u00edcio (ap\u00f3lice, regulamento do plano, certid\u00e3o de \u00f3bito, extratos banc\u00e1rios), verificar a base legal para a reten\u00e7\u00e3o e avaliar se o valor foi efetivamente recolhido ao Estado ou apenas bloqueado pela institui\u00e7\u00e3o. Em caso de reten\u00e7\u00e3o indevida, a a\u00e7\u00e3o de repeti\u00e7\u00e3o de ind\u00e9bito, o mandado de seguran\u00e7a ou a a\u00e7\u00e3o contra a institui\u00e7\u00e3o s\u00e3o caminhos poss\u00edveis, dependendo do est\u00e1gio do pagamento. \n</div>\n<div class=\"paragraph\">\nPor fim, a an\u00e1lise do IR complementa o planejamento tribut\u00e1rio do benefici\u00e1rio, j\u00e1 que, em alguns casos, poder\u00e1 haver incid\u00eancia parcial ou total do imposto, conforme a natureza do benef\u00edcio. Com essa vis\u00e3o global, \u00e9 poss\u00edvel definir uma estrat\u00e9gia que combine a libera\u00e7\u00e3o imediata de recursos, a contesta\u00e7\u00e3o de tributos indevidamente retidos e o correto cumprimento das obriga\u00e7\u00f5es fiscais, garantindo a prote\u00e7\u00e3o dos interesses do benefici\u00e1rio.\n</div>\n"}];
+    var edgesData = [{"from": 1, "to": 2}, {"from": 2, "to": 3}, {"from": 3, "to": 4}, {"from": 4, "to": 5}, {"from": 5, "to": 6}, {"from": 6, "to": 7}, {"from": 7, "to": 8}, {"from": 8, "to": 9}, {"from": 9, "to": 10}];
+    var nodes = new vis.DataSet(nodesData);
+    var edges = new vis.DataSet(edgesData);
+
+    var container = document.getElementById("mynetwork");
+    var data = { nodes: nodes, edges: edges };
+
+    // Configurações de layout e física para animação
+    var options = {
+      layout: {
+        hierarchical: {
+          enabled: true,
+          direction: "UD",
+          sortMethod: "directed",
+          levelSeparation: 180,
+          nodeSpacing: 150
+        }
+      },
+      physics: {
+        enabled: true,
+        solver: "hierarchicalRepulsion",
+        hierarchicalRepulsion: {
+          nodeDistance: 200,
+          centralGravity: 0.0,
+          springLength: 100,
+          springConstant: 0.01,
+          damping: 0.09
+        },
+        stabilization: false,
+        minVelocity: 0.75
+      },
+      interaction: {
+        hover: true,
+        navigationButtons: true,
+        keyboard: true,
+        zoomView: true
+      },
+      nodes: {
+        shape: "box",
+        borderWidth: 1,
+        size: 30,
+        color: {
+          border: "#999",
+          background: "#eee",
+          highlight: {
+            border: "#2B7CE9",
+            background: "#D2E5FF"
+          }
+        },
+        font: {
+          color: "#333",
+          size: 16,
+          face: "Arial"
+        },
+        margin: {
+          top: 10,
+          bottom: 10,
+          left: 10,
+          right: 10
+        }
+      },
+      edges: {
+        color: "#ccc",
+        smooth: {
+          enabled: true,
+          type: "cubicBezier",
+          roundness: 0.4
+        },
+        arrows: {
+          to: {
+            enabled: true,
+            scaleFactor: 0.7
+          }
+        }
+      }
+    };
+
+    var network = new vis.Network(container, data, options);
+
+    // Modal para exibir detalhes do nó
+    var modal = document.getElementById("myModal");
+    var modalText = document.getElementById("modalText");
+    var closeBtn = document.getElementsByClassName("close")[0];
+
+    // Animação: destaque sequencial (efeito de luz passando pelos nós)
+    var nodeIds = nodes.getIds();
+    var activeNodeIndex = 0;
+    var highlightInterval = null;
+
+    function highlightNextNode() {
+      // Reseta cor de todos os nós para o padrão
+      nodeIds.forEach(function(id) {
+        nodes.update({
+          id: id,
+          color: { border: "#999", background: "#eee" }
+        });
+      });
+      // Destaca o nó atual
+      var currentId = nodeIds[activeNodeIndex];
+      nodes.update({
+        id: currentId,
+        color: { border: "#2B7CE9", background: "#D2E5FF" }
+      });
+      // Foca no nó com animação suave
+      network.focus(currentId, {
+        scale: 1.0,
+        animation: { duration: 800, easingFunction: 'easeInOutQuad' }
+      });
+      activeNodeIndex = (activeNodeIndex + 1) % nodeIds.length;
+    }
+
+    function startHighlightAnimation() {
+      highlightInterval = setInterval(highlightNextNode, 2000);
+    }
+
+    function stopHighlightAnimation() {
+      if (highlightInterval) {
+        clearInterval(highlightInterval);
+        highlightInterval = null;
+      }
+    }
+
+    // Ao clicar em um nó, exibe modal e pausa animação
+    network.on("click", function(params) {
+      if (params.nodes.length === 1) {
+        stopHighlightAnimation();
+        network.physics.options.enabled = false;
+        var nodeId = params.nodes[0];
+        var nodeData = nodes.get(nodeId);
+        modalText.innerHTML = nodeData.detail;
+        modal.style.display = "block";
+      }
+    });
+
+    // Ao fechar modal, retoma animação
+    closeBtn.onclick = function() {
+      modal.style.display = "none";
+      network.physics.options.enabled = true;
+      network.stabilize();
+      startHighlightAnimation();
+    };
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+        network.physics.options.enabled = true;
+        network.stabilize();
+        startHighlightAnimation();
+      }
+    };
+
+    // Inicia animação ao carregar
+    startHighlightAnimation();
+  </script>
+</body>
+</html>
